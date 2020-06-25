@@ -25,16 +25,33 @@ app.get('/', (req, res) => {
 });
 
 app.get('/beers', (req, res) => {
-  res.render('beers');
-
-  // .getBeers()
+  // punkAPI.getBeers()
   // .then(beersFromApi => console.log('Beers from the database: ', beersFromApi))
   // .catch(error => console.log(error));
+
+  // res.render('beers', {beers: punkAPI});
+
+  app.get('/beers', (req, res) => {
+    punkAPI
+      .getBeers()
+      .then((beersFromApi) => {
+        console.log('Beers from the database: ', beersFromApi);
+        res.render('beers.hbs', { beersFromApi });
+      })
+      .catch((error) => console.log(error));
+  });
+
+
 
 });
 
 app.get('/randomBeer', (req, res) => {
-  res.render('randomBeer');
+  const randomBeer=punkAPI.getRandom()
+  randomBeer.then(beer => {
+    alert(beer[0].name)
+  })
+
+  res.render('randomBeer', randomBeer);
 });
 
 
